@@ -1,0 +1,5 @@
+{
+  "WebsiteURL": "http://husband-points-dev-us-east-1.s3-website-us-east-1.amazonaws.com",
+  "ServerlessDeploymentBucketName": "husband-points-dev-serverlessdeploymentbucket-8gecgxt4puug",
+  "UploadLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-1:947760376133:function:husband-points-dev-upload:30"
+}

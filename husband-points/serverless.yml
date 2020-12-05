@@ -1,0 +1,236 @@
+
+
+service: husband-points
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+
+# you can overwrite defaults here
+#  stage: dev
+#  region: us-east-1
+
+#you can add statements to the Lambda function's IAM Role here
+  iamRoleStatements:
+   - Effect: "Allow"
+     Action:
+       - "s3:ListBucket"
+     Resource:
+      Fn::Join:
+        - ""
+        - - "arn:aws:s3:::"
+          - Ref: DataBucket
+   - Effect: "Allow"
+     Action: 
+       - "dynamodb:PutItem"
+     Resource: "*"
+     # adding KMS decrypt permissions to avoid hitting this bug: https://github.com/serverless/examples/issues/279
+   - Effect: "Allow"
+     Action: 
+       - "kms:Decrypt"
+     Resource: "*"
+
+      
+      # { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "DataBucket" } ] ]  }
+  #  - Effect: "Allow"
+  #    Action:
+  #      - "s3:PutObject"
+  #    Resource:
+  #      Fn::Join:
+  #        - ""
+  #        - - "arn:aws:s3:::"
+  #          - "Ref" : "ServerlessDeploymentBucket"
+  #          - "/*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+#package:
+#  include:
+#    - include-me.py
+#    - include-me-dir/**
+#  exclude:
+#    - exclude-me.py
+#    - exclude-me-dir/**
+
+functions:
+  upload:
+    handler: upload.lambda_handler
+    environment:
+      data_bucket: ${self:custom.s3databucketname}
+  # create:
+  #   handler: upload.lambda_handler
+  # email:
+  #   handler: upload.lambda_handler
+  # redeem:
+  #   handler: redeem.lambda_handler
+
+
+#    The following are a few example events you can configure
+#    NOTE: Please make sure to change your handler code to work with those events
+#    Check the event documentation for details
+#    events:
+#      - http:
+#          path: users/create
+#          method: get
+#      - websocket: $connect
+#      - s3: ${env:BUCKET}
+#      - schedule: rate(10 minutes)
+#      - sns: greeter-topic
+#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
+#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
+#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
+#      - iot:
+#          sql: "SELECT * FROM 'some_topic'"
+#      - cloudwatchEvent:
+#          event:
+#            source:
+#              - "aws.ec2"
+#            detail-type:
+#              - "EC2 Instance State-change Notification"
+#            detail:
+#              state:
+#                - pending
+#      - cloudwatchLog: '/aws/lambda/hello'
+#      - cognitoUserPool:
+#          pool: MyUserPool
+#          trigger: PreSignUp
+#      - alb:
+#          listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
+#          priority: 1
+#          conditions:
+#            host: example.com
+#            path: /hello
+
+#    Define function environment variables here
+#    environment:
+#      variable2: value2
+
+# you can add CloudFormation resource templates here
+resources:
+  Resources:
+    # dynamoDB table
+    pointsTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        TableName: ${self:service}-table
+        AttributeDefinitions: 
+          - 
+            AttributeName: entry_id
+            AttributeType: N
+          - 
+            AttributeName: date
+            AttributeType: S
+        KeySchema: 
+          - 
+            AttributeName: entry_id
+            KeyType: HASH
+          - 
+            AttributeName: date
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+  
+    # S3 bucket where .csv will be uploaded. Improvement: use variables in BucketName to avoid a scenario where name is taken
+    DataBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3databucketname}
+
+    # Policy for DataBucket
+    DataBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: DataBucket
+        PolicyDocument:
+          Id: LambdaAccessPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                - 's3:GetObject'
+              Effect: Allow
+              Resource: 
+                - !Join ['', ["arn:aws:s3:::", !Ref DataBucket, "/*"]]
+              Principal: 
+                # AWS: !Join ['', ["arn:aws:iam::", !Ref AWS::AccountId, ":role/", "*"]]
+                AWS:
+                  Fn::Join:
+                    - ''
+                    - - 'arn:aws:iam::'
+                      - Ref: AWS::AccountId
+                      - ':role/${self:service.name}-${self:provider.stage}-${self:provider.region}-lambdaRole'
+
+    # arn:aws:iam::947760376133:role/husband-points-dev-us-east-1-lambdaRole
+
+    # S3 bucket that will host the static site
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3websitebucketname}
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+          Bucket: 
+            Ref: WebsiteBucket
+          PolicyDocument:
+            Id: WebPolicy
+            Version: "2012-10-17"
+            Statement:
+              - Sid: PublicReadForGetBucketObjects
+                Effect: Allow
+                Principal: '*'
+                Action: 's3:GetObject'
+                Resource: !Join 
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref WebsiteBucket
+                    - /*
+
+  Outputs:
+    WebsiteURL:
+      Value: !GetAtt 
+        - WebsiteBucket
+        - WebsiteURL
+      Description: URL for website hosted on S3
+
+
+plugins:
+  - serverless-s3-deploy
+  - custom-serverless-plugin
+  - serverless-s3-remover
+  - serverless-stack-output
+
+custom:
+  s3databucketname: voicefoundry-code-challenge-data-${self:service.name}-${self:provider.stage}-${self:provider.region}
+  s3websitebucketname: ${self:service.name}-${self:provider.stage}-${self:provider.region}
+  assets:
+    auto: true
+    targets:
+      - bucket: !Ref DataBucket
+        files:
+          - source: ./assets/data/
+            globs: "*.csv"
+      - bucket: !Ref WebsiteBucket
+        files:
+          - source: ./assets/public/
+            globs: "*.html"
+  remover:
+    buckets:
+      - ${self:custom.s3databucketname}
+      - ${self:custom.s3websitebucketname}
+  output:
+    file: .build/stack.json
+
+
