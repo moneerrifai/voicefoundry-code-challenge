@@ -57,10 +57,10 @@ def lambda_handler(event, context):
 
     # a Lambda function that extracts data from S3, and inserts it into DynamoDB
 
-    # dump event
+    # log event
     logger.info(json.dumps(event))
 
-    # create session and resources
+    # create boto3 resources
     s3_resource = boto3.resource('s3', config=config)
     dynamodb_resource = boto3.resource('dynamodb', config=config)
 
@@ -70,10 +70,10 @@ def lambda_handler(event, context):
     # using dynamodb resource, create a table sub-resource
     table = dynamodb_resource.Table(table_name)
 
-    # download the contents of the .csv file
+    # download the contents of the .csv file to /tmp
     s3_bucket.download_file(data_key, '/tmp/earnedpoints.csv')
 
-    # process file
+    # process file using the csv library, loop through each row, and write it to DynamoDB
     with open('/tmp/earnedpoints.csv', 'r') as file:
         csvreader = csv.DictReader(file, delimiter=',')
         next(csvreader, None) #skip the headers of the csv file
@@ -81,6 +81,5 @@ def lambda_handler(event, context):
             # upload contents of each row to dynamodb table
             unique_key = generate_uniquekey()
             write_data(table, row, unique_key)
-
 
     return 'success'

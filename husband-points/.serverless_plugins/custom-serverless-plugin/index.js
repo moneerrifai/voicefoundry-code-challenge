@@ -21,6 +21,7 @@ class TriggerLambda {
     // you can also do after:deploy:deploy
     
     this.hooks = {
+      'after:deploy:deploy': this.triggerSetFunction.bind(this),
       'after:deploy:finalize': this.triggerUploadFunction.bind(this),
       // 'triggerAfterDeploy:trigger': this.triggerUploadFunction.bind(this),
       // 'after:deploy:finalize': this.triggerUploadFunction.bind(this),
@@ -46,7 +47,13 @@ class TriggerLambda {
   triggerUploadFunction() {
     this.options.function = 'upload';
     this.serverless.cli.log('Running the upload function');
-    return this.serverless.pluginManager.spawn('invoke', this.options.function).then(this.serverless.cli.log('Upload complete'));
+    return this.serverless.pluginManager.spawn('invoke', this.options.function).then(this.serverless.cli.log('Upload data to data S3 bucket complete'));
+  };
+
+  triggerSetFunction() {
+    this.options.function = 'set';
+    this.serverless.cli.log('Running the set function');
+    return this.serverless.pluginManager.spawn('invoke', this.options.function).then(this.serverless.cli.log('Upload HTML file to website S3 bucket complete'));
   };
 
   // this should work

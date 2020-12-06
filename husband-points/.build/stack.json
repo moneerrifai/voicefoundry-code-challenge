@@ -1,5 +1,8 @@
 {
-  "WebsiteURL": "http://husband-points-dev-us-east-1.s3-website-us-east-1.amazonaws.com",
-  "ServerlessDeploymentBucketName": "husband-points-dev-serverlessdeploymentbucket-8gecgxt4puug",
-  "UploadLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-1:947760376133:function:husband-points-dev-upload:30"
+  "SetLambdaFunctionQualifiedArn": "arn:aws:lambda:us-west-1:947760376133:function:husband-points-dev-set:1",
+  "CreateLambdaFunctionQualifiedArn": "arn:aws:lambda:us-west-1:947760376133:function:husband-points-dev-create:1",
+  "WebsiteURL": "http://husband-points-dev-us-west-1.s3-website-us-west-1.amazonaws.com",
+  "ServiceEndpoint": "https://xemaz2syw0.execute-api.us-west-1.amazonaws.com/dev",
+  "ServerlessDeploymentBucketName": "husband-points-dev-serverlessdeploymentbucket-ydja9p73gjue",
+  "UploadLambdaFunctionQualifiedArn": "arn:aws:lambda:us-west-1:947760376133:function:husband-points-dev-upload:1"
 }

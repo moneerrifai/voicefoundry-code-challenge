@@ -1,0 +1,171 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h3 {
+  font-family:Helvetica;
+  color:black;
+  text-align:center;
+  margin: 30;
+}
+
+
+#thankyou {
+  margin-top: 200px;
+  display: none;
+  text-decoration: black;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 12px;
+  line-height: 30px;
+  color: #777;
+  background: linear-gradient(to right, #2980b9, #6dd5fa, #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.container {
+  max-width: 800px;
+  max-height: 800px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+#submit input[type="text"],
+#submit input[type="email"],
+#submit textarea,
+#submit button[type="submit"],
+#retrieve input[type="text"],
+#retrieve input[type="email"],
+#retrieve textarea,
+#retrieve button[type="submit"] {
+  font: 400 12px/16px "Roboto", Helvetica, Arial, sans-serif;
+}
+
+#submit, #retrieve {
+  background: #F9F9F9;
+  padding: 25px;
+  margin: 50px 0;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+#submit h3, #retrieve h3 {
+  display: block;
+  font-size: 30px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+#submit h4, #retrieve h4 {
+  margin: 5px 0 15px;
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+fieldset {
+  border: medium none !important;
+  margin: 0 0 10px;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+#submit input[type="text"],
+#submit input[type="email"],
+#submit textarea,
+#retrieve input[type="text"],
+#retrieve input[type="email"],
+#retrieve textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #FFF;
+  margin: 0 0 5px;
+  padding: 10px;
+}
+
+#submit input[type="text"]:hover,
+#submit input[type="email"]:hover,
+#submit textarea:hover,
+#retrieve input[type="text"]:hover,
+#retrieve input[type="email"]:hover,
+#retrieve textarea:hover  {
+  -webkit-transition: border-color 0.3s ease-in-out;
+  -moz-transition: border-color 0.3s ease-in-out;
+  transition: border-color 0.3s ease-in-out;
+  border: 1px solid #aaa;
+}
+
+#submit textarea, #retrieve textarea {
+  height: 100px;
+  max-width: 100%;
+  resize: none;
+}
+
+#submit button[type="submit"],
+#retrieve button[type="submit"] {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background: #4CAF50;
+  color: #FFF;
+  margin: 0 0 5px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+#submit button[type="submit"]:hover,
+#retrieve button[type="submit"]:hover {
+  background: #43A047;
+  -webkit-transition: background 0.3s ease-in-out;
+  -moz-transition: background 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#submit button[type="submit"]:active,
+#retrieve button[type="submit"]:active {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.copyright {
+  text-align: center;
+  font-size:25px;
+  padding:20px;
+}
+
+#submit input:focus,
+#submit textarea:focus,
+#retrieve input:focus,
+#retrieve textarea:focus {
+  outline: 0;
+  border: 1px solid #aaa;
+}
+
+::-webkit-input-placeholder {
+  color: #888;
+}
+
+:-moz-placeholder {
+  color: #888;
+}
+
+::-moz-placeholder {
+  color: #888;
+}
+
+:-ms-input-placeholder {
+  color: #888;
+}
