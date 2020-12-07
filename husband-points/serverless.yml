@@ -182,8 +182,8 @@ plugins:
   - serverless-stack-output
 
 custom:
-  s3databucketname: voicefoundry-code-challenge-data-${self:service.name}-${self:provider.stage}-${self:provider.region}
-  s3websitebucketname: ${self:service.name}-${self:provider.stage}-${self:provider.region}
+  s3databucketname: ${self:service.name}-${self:provider.stage}-${self:provider.region}-data
+  s3websitebucketname: ${self:service.name}-${self:provider.stage}-${self:provider.region}-web
   assets:
     auto: true
     targets:
