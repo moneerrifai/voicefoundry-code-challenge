@@ -1,26 +1,24 @@
 # Husband-Points
 
-Husband-Points is a revolutionary app that is expected to solve the frustrations of millions of husbands and strengthen their marriages to their partners. 
+Husband-Points is a revolutionary app expected to solve the frustrations of millions of husbands and strengthen their marriages to their partners. 
 
 ## Background
 
 #### What is This?
 
-I am happily married to my amazing wife Emma, who is wonderful at most things, except for one minor thing: the endless random requests and favors, which can come at any time.
+A typical example of a real conversation that I keep having with my wife:
 
-A typical example of a real conversation that we keep having:
-
-Emma: "I need you to run to Target!"
+My wife: "I need you to run to Target!"
 
 Me: "Sweetie, it is almost 10PM and I'm in my pajamas. Can this wait till tomorrow?"
 
-Emma: "Please please, you'll get tons of husband points if you run this quick errand for me!"
+My wife: "Please please, you'll get tons of husband points if you run this quick errand for me!"
 
-For the longest time, that was her way of encouragin me to do those random tasks. Ater realizing that I probably have amassed thousands of those "husband points", I figured I need a system to manage them!
+For the longest time, that was my wife's way of encouraging me to do those random tasks. Ater realizing that I probably have amassed thousands of those "husband points", I figured I need a system to manage them!
 
 #### How Does It Work?
 
-The idea is simple: when an unrealistic request is made, a number of points is assigned as an incentive. The value of each request is negotiable and up to the couple. A run to Target at 10PM might be worth 20 points, but spending the weekend with the in-laws could be worth 100 points. You get the idea.
+The idea is simple: when an unrealistic request is made, a number of points is assigned as an incentive. The value of each request is negotiable and up to the couple. A run to Target at 10PM might be worth 20 points, but spending the weekend with the in-laws could be worth up to 100 points. You get the idea.
 
 Points can then be redeemed, for example:
 - 200 points: work late one night - no questions asked
@@ -33,7 +31,7 @@ Entries are submitted through a web portal. An entry consists of a description, 
 
 ### Resources Created
 
-This project was built using the Serverless Framework. Upon deployment, the following resources are built:
+This project was built using the Serverless Framework. Upon deployment, the following resources are created:
 - three Lambda functions
 - two S3 buckets
 - an API Gateway
@@ -43,17 +41,13 @@ This project was built using the Serverless Framework. Upon deployment, the foll
 When the project is deployed, the following happens:
 - A .csv file is uploaded to an S3 bucket (Data S3 bucket)
 - The "upload" Lambda function reads the contents of the .csv file and writes them to DynamoDB
-- Another Lambda function, known as the "set" Lambda function, creates an index.html file in another S3 bucket (Website S3 bucket) that is set up for static site hosting
+- Another Lambda function (set.py) creates an index.html file in another S3 bucket (Website S3 bucket) configured for static site hosting
 
 ### Diagram
 
 The following diagram illustrates the resources described above:
 
-![Architecture Diagram](./husband-points.jpg)
-
-```bash
-pip install foobar
-```
+![Architecture Diagram](./images/husband-points.jpg)
 
 ## Usage
 
@@ -71,13 +65,17 @@ After the resources are deployed, you will find a file called **stack.json** ins
 
 ### Using the Web Portal
 
-The static site deployed by this project is a very simple website to show the functionality of adding entries to the DynamoDB table. 
+The static site deployed by this project is an extremely simple HTML page that shows the functionality of adding entries to the DynamoDB table.
 
-Simple browse to the site, add an entry, and click "Add husband points". You should see the entry in the DynamoDB table.
+Simply browse to the site, add the following required fields:
+- an description
+- number of points
+- date (using the date picker)
+Then click "Add husband points". You should see the entry in the DynamoDB table.
 
 See this screenshot for more details:
 
-![Husband Points Site](./husband-points-site.png)
+![Husband Points Site](./images/husband-points-site.png)
 
 Click [here](http://husband-points-dev-us-west-1.s3-website-us-west-1.amazonaws.com/index.html) to see a live preview of the static site. 
 
