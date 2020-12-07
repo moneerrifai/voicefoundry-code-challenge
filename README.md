@@ -39,9 +39,10 @@ This project was built using the Serverless Framework. Upon deployment, the foll
 - all associated roles and policies
 
 When the project is deployed, the following happens:
-- A .csv file is uploaded to an S3 bucket (Data S3 bucket)
-- The "upload" Lambda function reads the contents of the .csv file and writes them to DynamoDB
-- Another Lambda function (set.py) creates an index.html file in another S3 bucket (Website S3 bucket) configured for static site hosting
+- A .csv file is uploaded to an S3 bucket (Data S3 bucket). The .csv contains previous "entries" that are to be imported.
+- The "upload" Lambda function reads the contents of the .csv file and writes them to DynamoDB.
+- Another Lambda function (set.py) creates an index.html file in another S3 bucket (Website S3 bucket) configured for static site hosting.
+- The user can now visit the URL an upload more "entries" via the web portal. See the Deploying section below for more information.
 
 ### Diagram
 
@@ -68,9 +69,9 @@ After the resources are deployed, you will find a file called **stack.json** ins
 The static site deployed by this project is an extremely simple HTML page that shows the functionality of adding entries to the DynamoDB table.
 
 Simply browse to the site, add the following required fields:
-- an description
-- number of points
-- date (using the date picker)
+- a description. Example: "Moved my friend and I was not even there to help"
+- number of points. Example: "75"
+- date (using the date picker). Example: "12-5-2020"
 Then click "Add husband points". You should see the entry in the DynamoDB table.
 
 See this screenshot for more details:
