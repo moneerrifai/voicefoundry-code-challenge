@@ -68,10 +68,11 @@ After the resources are deployed, you will find a file called **stack.json** ins
 
 The static site deployed by this project is an extremely simple HTML page that shows the functionality of adding entries to the DynamoDB table.
 
-Simply browse to the site, add the following required fields:
-- a description. Example: "Moved my friend and I was not even there to help"
-- number of points. Example: "75"
-- date (using the date picker). Example: "12-5-2020"
+Simply browse to the site, fill out the following required fields:
+- Description. Example: "Moved my friend and I was not even there to help".
+- Number of points. Example: "75".
+- Date (using the date picker). Example: "12-5-2020".
+
 Then click "Add husband points". You should see the entry in the DynamoDB table.
 
 See this screenshot for more details:
