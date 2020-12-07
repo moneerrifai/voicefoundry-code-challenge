@@ -91,7 +91,9 @@ This project relies on the following Serverless plugins:
 
   - **serverless-stack-output**: this plugin outputs some relevant information to the stack.json file inside .build directory, including the URL of the static site, for convenience.
 
-## Further Improvements
+## Further Improvements and Known Issues
+
+### Improvements
 
 This project is obviously more of a proof-of-concept and not a complete app (despite my bragging about it in the introduction). A number of improvements can be made to both the front end and back end:
 
@@ -101,6 +103,15 @@ This project is obviously more of a proof-of-concept and not a complete app (des
 - Adding CI/CD
 - Adding tests
 - Improving the front end using a framework like React
+
+### Issues
+
+Occasionally while testing I would run into this error:
+
+`Lambda was unable to decrypt the environment variables because KMS access was denied. Please check the function's KMS key settings. KMS Exception: UnrecognizedClientExceptionKMS Message: The security token included in the request is invalid.`
+
+This appears to be a known [issue](https://github.com/serverless/examples/issues/279). Doing an `sls remove` followed by an `sls deploy` usually resolves it, otherwise try deploying in a different region.
+
 
 ## We Are Looking for Investors
 
