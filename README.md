@@ -83,12 +83,13 @@ Click [here](http://husband-points-dev-us-west-1.s3-website-us-west-1.amazonaws.
 
 This project relies on the following Serverless plugins:
 
-  - custom-serverless-plugin: I wrote this very cleverly-named plugin to automatically invoke the "upload" and "set" Lambda functions upon the last stage of deployment. As mentioned earlier, the "upload" Lambda function reads the contents of the .csv file and write them to Dynamo, while the "set" Lambda function creates the index.html file.
+  - **custom-serverless-plugin**: I wrote this very cleverly-named plugin to automatically invoke the "upload" and "set" Lambda functions upon the last stage of deployment. As mentioned earlier, the "upload" Lambda function reads the contents of the .csv file and write them to Dynamo, while the "set" Lambda function creates the index.html file.
 
-  - serverless-s3-deploy: this plugin loads files into S3 upon deployment.
-  - serverless-s3-remover: this plugin empties S3 bucket when the project is removed, because a non-empty S3 bucket will cause the deletion of the bucket to fail
+  - **serverless-s3-deploy**: this plugin loads files into S3 upon deployment.
 
-  - serverless-stack-output: this plugin outputs some relevant information to the stack.json file inside .build directory, including the URL of the static site, for convenience.
+  - **serverless-s3-remover**: this plugin empties S3 bucket when the project is removed, because a non-empty S3 bucket will cause the deletion of the bucket to fail
+
+  - **serverless-stack-output**: this plugin outputs some relevant information to the stack.json file inside .build directory, including the URL of the static site, for convenience.
 
 ## Further Improvements
 
